@@ -3,12 +3,9 @@ import os
 import csv
 
 fileJSON = open("Basketball_women2.json")
-
 data = json.load(fileJSON)
 
-print(data)
-
-players_field_names = ["_id", "firstName", "middleName", "lastName", "fullGivenName", "nameNick", "pos", "height","weight", "college", "birthDate", "birthCity", "birthCountry", "highSchool" , "hsCity" , "hsState", "hsCountry" , "players_teams" , "awards_players"]
+players_field_names = ["_id", "firstName", "middleName", "lastName", "fullGivenName", "nameNick", "pos", "height","weight", "college", "birthDate", "birthCity", "birthCountry", "highSchool" , "hsCity" , "hsState", "hsCountry"]
 teams_field_names = ["_id","year","tmID", "games","minutes","points","steals","blocks"]
 awards_field_names = ["_id","award", "year" , "pos"]
 players_teams_dict = []
@@ -16,7 +13,6 @@ awards_players_dict = []
 
 for element in data:
     player_id = element['_id']
-
     # Check if 'players_teams' array is not empty
     if element.get('players_teams'):
         for entry in element['players_teams']:
