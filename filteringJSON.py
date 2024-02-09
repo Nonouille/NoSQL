@@ -1,6 +1,7 @@
 import json
 import os
 import csv
+from datetime import datetime
 
 fileJSON = open("Basketball_women2.json")
 data = json.load(fileJSON)
@@ -29,18 +30,25 @@ for element in data:
             awards_players_dict.append(entry_with_id)
     element.pop('awards_players')
 
+    if element['birthDate'] == '0000-00-00':
+        # Replace with a default date or exclude the entry, as needed
+        element['birthDate'] = '1789-07-14'
+    else:
+        # Convert 'birthDate' to a datetime object
+        element['birthDate'] = datetime.strptime(element['birthDate'], '%Y-%m-%d').date()
+
 
 with open('Players.csv','w') as csvfile:
-    writer = csv.DictWriter(csvfile,fieldnames=players_field_names)
+    writer = csv.DictWriter(csvfile,fieldnames=players_field_names,extrasaction='ignore')
     writer.writeheader()
     writer.writerows(data)
 
 with open('Teams.csv','w') as csvfile:
-    writer = csv.DictWriter(csvfile,fieldnames=teams_field_names)
+    writer = csv.DictWriter(csvfile,fieldnames=teams_field_names,extrasaction='ignore')
     writer.writeheader()
     writer.writerows(players_teams_dict)
 
 with open('Awards.csv','w') as csvfile:
-    writer = csv.DictWriter(csvfile,fieldnames=awards_field_names)
+    writer = csv.DictWriter(csvfile,fieldnames=awards_field_names,extrasaction='ignore')
     writer.writeheader()
     writer.writerows(awards_players_dict)
